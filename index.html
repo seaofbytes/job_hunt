@@ -6,11 +6,13 @@
     <title>Job Hunt</title>
   </head>
   <body>
-    <img src="./img/background.png" alt="" />
-
-    <canvas id="canvas"></canvas>
+    <div id="scene">
+      <img data-depth="0.8" src="./img/background.png" alt="" />
+      <canvas data-depth="0.2" id="canvas"></canvas>
+    </div>
   </body>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/phaser@3.23.0/dist/phaser.min.js"></script>
   <script src="index.js"></script>
 </html>
 
