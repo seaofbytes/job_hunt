@@ -18,6 +18,7 @@ class Duck {
     this.sprite = sprite;
     this.spriteRight = spriteRight;
     this.spriteLeft = spriteLeft;
+    this.dead = false;
   }
 }
 
@@ -75,11 +76,46 @@ function animateDuckSprites(ducks) {
         heightOfImage // width and height
       );
       checkCollision(duck);
+
+      if (duck.y >= 750) {
+        console.log("DUCK DOWN");
+        duck.sprite = "";
+      }
     }
   });
 }
 
+const dogSprite = new Image();
+dogSprite.src = "./img/dog.png";
+
+let totalNumberOfFramesD = 7; // ten images in the image (see the url above)
+let imageFrameNumberD = 0; // This is changed to make the sprite animate
+let widthOfImageD = dogSprite.width + 130; // find the width of the image
+let heightOfImageD = dogSprite.height; // find the height of the image
+let widthOfSingleImageD = widthOfImageD / totalNumberOfFramesD; // The width of each image in the spirite
+
+function animateDoge() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  imageFrameNumberD++; // changes the sprite we look at
+  imageFrameNumberD = imageFrameNumberD % totalNumberOfFramesD; // Change this from 0 to 1 to 2 ... upto 9 and back to 0 again, then 1...
+
+  ctx.drawImage(
+    dogSprite,
+    imageFrameNumberD * widthOfSingleImageD,
+    0, // x and y - where in the sprite
+    widthOfSingleImageD,
+    heightOfImageD, // width and height
+    100,
+    100, // x and y - where on the screen
+    widthOfSingleImageD,
+    heightOfImageD // width and height
+  );
+}
+
 function checkCollision(duck) {
+  if (duck.y + duck.dy > canvas.height - 200 && duck.dead) duck.sprite = "";
+
   if (
     duck.x + duck.dx > canvas.width - duck.duckSize ||
     duck.x + duck.dx < 10
@@ -93,6 +129,7 @@ function checkCollision(duck) {
     duck.y + duck.dy < 25
   ) {
     duck.dy = -duck.dy;
+    console.log("DD");
   }
 
   duck.x += duck.dx;
@@ -100,6 +137,8 @@ function checkCollision(duck) {
 }
 
 const ducks = [greenDuck, blueDuck];
+let x = new Image();
+x.src = "img/duck_falling.png";
 
 function checkForDuckHit(e, ducks) {
   ducks.forEach((duck) => {
@@ -110,13 +149,20 @@ function checkForDuckHit(e, ducks) {
       e.screenY <= duck.y + 220
     ) {
       console.log("HIT");
-      duck.sprite = "";
+      duck.dead = true;
+      duck.sprite = x;
+      duck.dx = 0;
+      duck.dy = 0;
+      duck.y > 0 ? duck.dy++ : null;
+      duck.y < 740 ? "BOTTOM" : console.log(duck.y);
     }
   });
 }
 
 canvas.addEventListener("click", (e) => {
   checkForDuckHit(e, ducks);
+  console.log(e.screenY);
 });
 
 setInterval(animateDuckSprites, 5, ducks);
+// setInterval(animateDoge, 300);

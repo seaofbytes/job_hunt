@@ -6,7 +6,7 @@
     <title>Job Hunt</title>
   </head>
   <body>
-    <div id="scene">
+    <div class="wrapper" id="scene">
       <img data-depth="0.8" src="./img/background.png" alt="" />
       <canvas data-depth="0.2" id="canvas"></canvas>
     </div>
@@ -17,6 +17,9 @@
 </html>
 
 <style>
+  .wrapper {
+    cursor: url(img/cursor.png), auto;
+  }
   #canvas {
     border: 5px solid black;
     position: absolute;
